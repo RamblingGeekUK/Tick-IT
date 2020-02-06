@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Tick_IT.Models.Issues>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Issues_UserID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Issues_Createdby)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Issues_Number)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Issues_DateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Issues_Subject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Issues_Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Issues_Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Issues_UserID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Issues_Createdby)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Issues_Number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Issues_DateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Issues_Subject)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Issues_Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Issues_Status)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Issues_ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Issues_ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Issues_ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
