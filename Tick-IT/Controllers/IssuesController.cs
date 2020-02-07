@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Tick_IT.Data;
 using Tick_IT.Models;
 
 namespace Tick_IT.Views
 {
+    [Authorize]
     public class IssuesController : Controller
     {
         private readonly TickITContext _context;

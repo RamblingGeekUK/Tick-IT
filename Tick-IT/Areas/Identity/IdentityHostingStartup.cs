@@ -1,11 +1,8 @@
-﻿using System;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Tick_IT.Data;
 
 [assembly: HostingStartup(typeof(Tick_IT.Areas.Identity.IdentityHostingStartup))]
 namespace Tick_IT.Areas.Identity
@@ -20,7 +17,8 @@ namespace Tick_IT.Areas.Identity
                        context.Configuration.GetConnectionString("TIDConnection")));
 
                 services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<IdentityContext>();
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<IdentityContext>();
             });
         }
     }
