@@ -12,7 +12,7 @@ namespace Tick_IT.Models
         Open, Closed, Pending
     }
 
-    public class Issues
+    public class Issue  // Blog
     {
         [Key]
         public Guid Issues_ID { get; set; }
@@ -25,6 +25,6 @@ namespace Tick_IT.Models
         public string Issues_Subject { get; set; }
         public string Issues_Description { get; set; }
         public Issues_Status? Issues_Status { get; set; }
-        public List<Responses> Responses { get; set; }
+        public List<Response> Responses { get; set; }
     }
 }

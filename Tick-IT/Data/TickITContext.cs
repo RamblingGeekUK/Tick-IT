@@ -14,21 +14,22 @@ namespace Tick_IT.Data
         {
         }
 
-        public DbSet<Issues> Issue { get; set; }
-        public DbSet<Responses> Response { get; set; }
+        public DbSet<Issue> Issues { get; set; }
+        public DbSet<Response> Responses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasSequence<int>("Issues_Number")
                 .StartsAt(10001)
                 .IncrementsBy(1);
-            modelBuilder.Entity<Issues>()
+            modelBuilder.Entity<Issue>()
             .Property(i => i.Issues_Number)
             .HasDefaultValueSql("NEXT VALUE FOR Issues_Number");
 
-            modelBuilder.Entity<Responses>()
-                .HasOne(i => i.Issues)
+            modelBuilder.Entity<Response>()
+                .HasOne(i => i.Issue)
                 .WithMany(r => r.Responses);
         }
+
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tick_IT.Data;
 
 namespace Tick_IT.Migrations
 {
     [DbContext(typeof(TickITContext))]
-    partial class TickITContextModelSnapshot : ModelSnapshot
+    [Migration("20200208101859_FixingPluras")]
+    partial class FixingPluras
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,7 +22,7 @@ namespace Tick_IT.Migrations
                 .HasAnnotation("Relational:Sequence:.Issues_Number", "'Issues_Number', '', '10001', '1', '', '', 'Int32', 'False'")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Tick_IT.Models.Issue", b =>
+            modelBuilder.Entity("Tick_IT.Models.Issues", b =>
                 {
                     b.Property<Guid>("Issues_ID")
                         .ValueGeneratedOnAdd()
@@ -87,7 +89,7 @@ namespace Tick_IT.Migrations
 
             modelBuilder.Entity("Tick_IT.Models.Response", b =>
                 {
-                    b.HasOne("Tick_IT.Models.Issue", "Issue")
+                    b.HasOne("Tick_IT.Models.Issues", "Issues")
                         .WithMany("Responses")
                         .HasForeignKey("Issues_ID");
                 });
