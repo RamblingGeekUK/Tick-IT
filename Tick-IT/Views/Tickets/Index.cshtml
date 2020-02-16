@@ -10,10 +10,10 @@
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
-    <thead>
-        @*<tr>
+    @*<thead>
+        <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Issues Issues_UserID)
+                @Html.DisplayNameFor(model => model.Responses)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Issues_Createdby)
@@ -34,53 +34,51 @@
                 @Html.DisplayNameFor(model => model.Issues_Status)
             </th>
             <th></th>
-        </tr>*@
-    </thead>
+        </tr>
+    </thead>*@
     <tbody>
         @foreach (var item in Model.Issues)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Issues_UserID)
+                    @Html.DisplayFor(modelItem => item.Number)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Issues_Createdby)
+                    @Html.DisplayFor(modelItem => item.DateTime)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Issues_Number)
+                    @Html.DisplayFor(modelItem => item.Subject)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Issues_DateTime)
+                    @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Issues_Subject)
+                    @Html.DisplayFor(modelItem => item.Status)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Issues_Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Issues_Status)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Issues_ID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Issues_ID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Issues_ID">Delete</a>
-                </td>
-            </tr>
-        }
 
-        @foreach (var item in Model.Responses)
-        {
-            <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Responses_Message)
+                    <a asp-action="Select" asp-route-id="@item.ID">Select</a>
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Responses_DateTime)
-                </td>
-                
-                
             </tr>
+            @foreach (var issuesReponse in item.Responses)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => issuesReponse.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => issuesReponse.Message)
+                    </td>
+                     <td>
+                        @Html.DisplayFor(modelItem => issuesReponse.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => issuesReponse.DateTime)
+                    </td>
+                </tr>
+            }
+
         }
+     
     </tbody>
 </table>

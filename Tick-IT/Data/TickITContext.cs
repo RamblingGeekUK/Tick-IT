@@ -19,16 +19,17 @@ namespace Tick_IT.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasSequence<int>("Issues_Number")
+            modelBuilder.HasSequence<int>("Number")
                 .StartsAt(10001)
                 .IncrementsBy(1);
             modelBuilder.Entity<Issue>()
-            .Property(i => i.Issues_Number)
-            .HasDefaultValueSql("NEXT VALUE FOR Issues_Number");
+            .Property(i => i.Number)
+            .HasDefaultValueSql("NEXT VALUE FOR Number");
 
             modelBuilder.Entity<Response>()
                 .HasOne(i => i.Issue)
                 .WithMany(r => r.Responses);
+
         }
 
     }

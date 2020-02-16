@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Tick_IT.Models.Issue>
+﻿@model IEnumerable<Tick_IT.Models.Response>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,28 +13,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ID)
+                @Html.DisplayNameFor(model => model.TicketID)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.UserID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Createdby)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Number)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.DateTime)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Subject)
+                @Html.DisplayNameFor(model => model.Message)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
+                @Html.DisplayNameFor(model => model.CreatedBy)
             </th>
             <th></th>
         </tr>
@@ -43,28 +34,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ID)
+                @Html.DisplayFor(modelItem => item.TicketID)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UserID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Createdby)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Number)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.DateTime)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Subject)
+                @Html.DisplayFor(modelItem => item.Message)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                @Html.DisplayFor(modelItem => item.CreatedBy)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |

@@ -15,16 +15,16 @@ namespace Tick_IT.Models
     public class Issue  // Blog
     {
         [Key]
-        public Guid Issues_ID { get; set; }
-        public Guid Issues_UserID { get; set; }
-        public string Issues_Createdby { get; set; }
+        public Guid ID { get; set; }
+        public Guid UserID { get; set; }
+        public string Createdby { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Issues_Number { get; set; }
+        public int Number { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}")]
-        public DateTime Issues_DateTime { get; set; }
-        public string Issues_Subject { get; set; }
-        public string Issues_Description { get; set; }
-        public Issues_Status? Issues_Status { get; set; }
+        public DateTime DateTime { get; set; }
+        public string Subject { get; set; }
+        public string Description { get; set; }
+        public Issues_Status? Status { get; set; }
         public List<Response> Responses { get; set; }
     }
 }

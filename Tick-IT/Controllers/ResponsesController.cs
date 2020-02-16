@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,24 +8,24 @@ using Microsoft.EntityFrameworkCore;
 using Tick_IT.Data;
 using Tick_IT.Models;
 
-namespace Tick_IT.Views.Home
+namespace Tick_IT.Views
 {
-    public class IssuesController : Controller
+    public class ResponsesController : Controller
     {
         private readonly TickITContext _context;
 
-        public IssuesController(TickITContext context)
+        public ResponsesController(TickITContext context)
         {
             _context = context;
         }
 
-        // GET: Issues
+        // GET: Responses
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Issues.ToListAsync());
+            return View(await _context.Responses.ToListAsync());
         }
 
-        // GET: Issues/Details/5
+        // GET: Responses/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -34,44 +33,40 @@ namespace Tick_IT.Views.Home
                 return NotFound();
             }
 
-            var issue = await _context.Issues
+            var response = await _context.Responses
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (issue == null)
+            if (response == null)
             {
                 return NotFound();
             }
 
-            return View(issue);
+            return View(response);
         }
 
-        // GET: Issues/Create
+        // GET: Responses/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Issues/Create
+        // POST: Responses/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Issues_ID,Issues_UserID,Issues_Createdby,Issues_Number,Issues_DateTime,Issues_Subject,Issues_Description,Issues_Status")] Issue issue)
+        public async Task<IActionResult> Create([Bind("ID,TicketID,UserID,DateTime,Message,CreatedBy")] Response response)
         {
             if (ModelState.IsValid)
             {
-                issue.ID = Guid.NewGuid();
-                issue.UserID = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                issue.Createdby = User.FindFirstValue(ClaimTypes.Name);
-                issue.DateTime = DateTime.UtcNow;
-                issue.Status = Issues_Status.Open;
-                _context.Add(issue);
+                response.ID = Guid.NewGuid();
+                _context.Add(response);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(issue);
+            return View(response);
         }
 
-        // GET: Issues/Edit/5
+        // GET: Responses/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -79,22 +74,22 @@ namespace Tick_IT.Views.Home
                 return NotFound();
             }
 
-            var issue = await _context.Issues.FindAsync(id);
-            if (issue == null)
+            var response = await _context.Responses.FindAsync(id);
+            if (response == null)
             {
                 return NotFound();
             }
-            return View(issue);
+            return View(response);
         }
 
-        // POST: Issues/Edit/5
+        // POST: Responses/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Issues_ID,Issues_UserID,Issues_Createdby,Issues_Number,Issues_DateTime,Issues_Subject,Issues_Description,Issues_Status")] Issue issue)
+        public async Task<IActionResult> Edit(Guid id, [Bind("ID,TicketID,UserID,DateTime,Message,CreatedBy")] Response response)
         {
-            if (id != issue.ID)
+            if (id != response.ID)
             {
                 return NotFound();
             }
@@ -103,12 +98,12 @@ namespace Tick_IT.Views.Home
             {
                 try
                 {
-                    _context.Update(issue);
+                    _context.Update(response);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!IssueExists(issue.ID))
+                    if (!ResponseExists(response.ID))
                     {
                         return NotFound();
                     }
@@ -119,10 +114,10 @@ namespace Tick_IT.Views.Home
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(issue);
+            return View(response);
         }
 
-        // GET: Issues/Delete/5
+        // GET: Responses/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -130,30 +125,30 @@ namespace Tick_IT.Views.Home
                 return NotFound();
             }
 
-            var issue = await _context.Issues
+            var response = await _context.Responses
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (issue == null)
+            if (response == null)
             {
                 return NotFound();
             }
 
-            return View(issue);
+            return View(response);
         }
 
-        // POST: Issues/Delete/5
+        // POST: Responses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var issue = await _context.Issues.FindAsync(id);
-            _context.Issues.Remove(issue);
+            var response = await _context.Responses.FindAsync(id);
+            _context.Responses.Remove(response);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool IssueExists(Guid id)
+        private bool ResponseExists(Guid id)
         {
-            return _context.Issues.Any(e => e.ID == id);
+            return _context.Responses.Any(e => e.ID == id);
         }
     }
 }

@@ -11,20 +11,37 @@ using Tick_IT.Models;
 
 namespace Tick_IT.Views.Home
 {
-    public class IssuesController : Controller
+    public class TicketsController : Controller
     {
         private readonly TickITContext _context;
 
-        public IssuesController(TickITContext context)
+        public TicketsController(TickITContext context)
         {
             _context = context;
         }
 
         // GET: Issues
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index() //Guid? ticketID
         {
-            return View(await _context.Issues.ToListAsync());
+            var viewModel = new TicketsViewModel();
+
+            viewModel.Issues = await _context.Issues
+                .Include(r => r.Responses)
+                .ToListAsync();
+                
+            return View(viewModel);
         }
+        //public async Task<IActionResult> Index(Guid ticketID) 
+        //{
+        //    var viewModel = new TicketsViewModel();
+
+        //    viewModel.Issues = await _context.Issues
+        //        .Where(x=>x.ID == ticketID)
+        //        .Include(r => r.Responses)
+        //        .ToListAsync();
+
+        //    return View(viewModel);
+        //}
 
         // GET: Issues/Details/5
         public async Task<IActionResult> Details(Guid? id)
@@ -59,11 +76,6 @@ namespace Tick_IT.Views.Home
         {
             if (ModelState.IsValid)
             {
-                issue.ID = Guid.NewGuid();
-                issue.UserID = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                issue.Createdby = User.FindFirstValue(ClaimTypes.Name);
-                issue.DateTime = DateTime.UtcNow;
-                issue.Status = Issues_Status.Open;
                 _context.Add(issue);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
