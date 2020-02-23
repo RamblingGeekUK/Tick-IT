@@ -1,8 +1,10 @@
-﻿@model IEnumerable<Tick_IT.Models.Responses>
+﻿@model IEnumerable<Tick_IT.Models.Response>
 
 @{
     ViewData["Title"] = "Index";
 }
+
+<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -11,19 +13,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Responses_TicketID)
+                @Html.DisplayNameFor(model => model.TicketID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Responses_UserID)
+                @Html.DisplayNameFor(model => model.UserID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Responses_DateTime)
+                @Html.DisplayNameFor(model => model.DateTime)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Responses_Message)
+                @Html.DisplayNameFor(model => model.Message)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Responses_CreatedBy)
+                @Html.DisplayNameFor(model => model.CreatedBy)
             </th>
             <th></th>
         </tr>
@@ -32,24 +34,24 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Responses_TicketID)
+                @Html.DisplayFor(modelItem => item.TicketID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Responses_UserID)
+                @Html.DisplayFor(modelItem => item.UserID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Responses_DateTime)
+                @Html.DisplayFor(modelItem => item.DateTime)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Responses_Message)
+                @Html.DisplayFor(modelItem => item.Message)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Responses_CreatedBy)
+                @Html.DisplayFor(modelItem => item.CreatedBy)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Responses_ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Responses_ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Responses_ID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
             </td>
         </tr>
 }

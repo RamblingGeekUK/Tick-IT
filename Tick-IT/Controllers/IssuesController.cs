@@ -1,16 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Tick_IT.Data;
 using Tick_IT.Models;
 
-namespace Tick_IT.Views
+namespace Tick_IT.Views.Home
 {
-    [Authorize]
     public class IssuesController : Controller
     {
         private readonly TickITContext _context;
@@ -23,7 +23,7 @@ namespace Tick_IT.Views
         // GET: Issues
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Issue.ToListAsync());
+            return View(await _context.Issues.ToListAsync());
         }
 
         // GET: Issues/Details/5
@@ -34,14 +34,14 @@ namespace Tick_IT.Views
                 return NotFound();
             }
 
-            var issues = await _context.Issue
-                .FirstOrDefaultAsync(m => m.Issues_ID == id);
-            if (issues == null)
+            var issue = await _context.Issues
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (issue == null)
             {
                 return NotFound();
             }
 
-            return View(issues);
+            return View(issue);
         }
 
         // GET: Issues/Create
@@ -55,21 +55,20 @@ namespace Tick_IT.Views
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Issues_ID,Issues_UserID,Issues_Createdby,Issues_Number,Issues_DateTime,Issues_Subject,Issues_Description,Issues_Status")] Issues issues)
+        public async Task<IActionResult> Create([Bind("Issues_ID,Issues_UserID,Issues_Createdby,Issues_Number,Issues_DateTime,Issues_Subject,Issues_Description,Issues_Status")] Issue issue)
         {
             if (ModelState.IsValid)
             {
-                issues.Issues_ID = Guid.NewGuid();
-                issues.Issues_UserID = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                issues.Issues_Createdby = User.FindFirstValue(ClaimTypes.Name);
-                issues.Issues_DateTime = DateTime.UtcNow;
-                issues.Issues_Status = Issues_Status.Open;
-
-                _context.Add(issues);
+                issue.ID = Guid.NewGuid();
+                issue.UserID = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                issue.Createdby = User.FindFirstValue(ClaimTypes.Name);
+                issue.DateTime = DateTime.UtcNow;
+                issue.Status = Issues_Status.Open;
+                _context.Add(issue);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(issues);
+            return View(issue);
         }
 
         // GET: Issues/Edit/5
@@ -80,12 +79,12 @@ namespace Tick_IT.Views
                 return NotFound();
             }
 
-            var issues = await _context.Issue.FindAsync(id);
-            if (issues == null)
+            var issue = await _context.Issues.FindAsync(id);
+            if (issue == null)
             {
                 return NotFound();
             }
-            return View(issues);
+            return View(issue);
         }
 
         // POST: Issues/Edit/5
@@ -93,9 +92,9 @@ namespace Tick_IT.Views
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Issues_ID,Issues_UserID,Issues_Createdby,Issues_Number,Issues_DateTime,Issues_Subject,Issues_Description,Issues_Status")] Issues issues)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Issues_ID,Issues_UserID,Issues_Createdby,Issues_Number,Issues_DateTime,Issues_Subject,Issues_Description,Issues_Status")] Issue issue)
         {
-            if (id != issues.Issues_ID)
+            if (id != issue.ID)
             {
                 return NotFound();
             }
@@ -104,12 +103,12 @@ namespace Tick_IT.Views
             {
                 try
                 {
-                    _context.Update(issues);
+                    _context.Update(issue);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!IssuesExists(issues.Issues_ID))
+                    if (!IssueExists(issue.ID))
                     {
                         return NotFound();
                     }
@@ -120,7 +119,7 @@ namespace Tick_IT.Views
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(issues);
+            return View(issue);
         }
 
         // GET: Issues/Delete/5
@@ -131,14 +130,14 @@ namespace Tick_IT.Views
                 return NotFound();
             }
 
-            var issues = await _context.Issue
-                .FirstOrDefaultAsync(m => m.Issues_ID == id);
-            if (issues == null)
+            var issue = await _context.Issues
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (issue == null)
             {
                 return NotFound();
             }
 
-            return View(issues);
+            return View(issue);
         }
 
         // POST: Issues/Delete/5
@@ -146,15 +145,15 @@ namespace Tick_IT.Views
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var issues = await _context.Issue.FindAsync(id);
-            _context.Issue.Remove(issues);
+            var issue = await _context.Issues.FindAsync(id);
+            _context.Issues.Remove(issue);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool IssuesExists(Guid id)
+        private bool IssueExists(Guid id)
         {
-            return _context.Issue.Any(e => e.Issues_ID == id);
+            return _context.Issues.Any(e => e.ID == id);
         }
     }
 }

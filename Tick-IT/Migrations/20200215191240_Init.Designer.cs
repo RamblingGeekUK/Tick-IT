@@ -10,8 +10,8 @@ using Tick_IT.Data;
 namespace Tick_IT.Migrations
 {
     [DbContext(typeof(TickITContext))]
-    [Migration("20200206224149_InitDB")]
-    partial class InitDB
+    [Migration("20200215191240_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -19,79 +19,79 @@ namespace Tick_IT.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("Relational:Sequence:.Issues_Number", "'Issues_Number', '', '10001', '1', '', '', 'Int32', 'False'")
+                .HasAnnotation("Relational:Sequence:.Number", "'Number', '', '10001', '1', '', '', 'Int32', 'False'")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Tick_IT.Models.Issues", b =>
+            modelBuilder.Entity("Tick_IT.Models.Issue", b =>
                 {
-                    b.Property<Guid>("Issues_ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Issues_Createdby")
+                    b.Property<string>("Createdby")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Issues_DateTime")
+                    b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Issues_Description")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Issues_Number")
+                    b.Property<int>("Number")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasDefaultValueSql("NEXT VALUE FOR Issues_Number");
+                        .HasDefaultValueSql("NEXT VALUE FOR Number");
 
-                    b.Property<int?>("Issues_Status")
+                    b.Property<int?>("Status")
                         .HasColumnType("int");
 
-                    b.Property<string>("Issues_Subject")
+                    b.Property<string>("Subject")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("Issues_UserID")
+                    b.Property<Guid>("UserID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Issues_ID");
+                    b.HasKey("ID");
 
-                    b.ToTable("Issue");
+                    b.ToTable("Issues");
                 });
 
-            modelBuilder.Entity("Tick_IT.Models.Responses", b =>
+            modelBuilder.Entity("Tick_IT.Models.Response", b =>
                 {
-                    b.Property<Guid>("Responses_ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("Issues_ID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Responses_CreatedBy")
+                    b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Responses_DateTime")
+                    b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Responses_Message")
+                    b.Property<Guid?>("IssueID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("Responses_TicketID")
+                    b.Property<Guid>("TicketID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Responses_UserID")
+                    b.Property<Guid>("UserID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Responses_ID");
+                    b.HasKey("ID");
 
-                    b.HasIndex("Issues_ID");
+                    b.HasIndex("IssueID");
 
-                    b.ToTable("Response");
+                    b.ToTable("Responses");
                 });
 
-            modelBuilder.Entity("Tick_IT.Models.Responses", b =>
+            modelBuilder.Entity("Tick_IT.Models.Response", b =>
                 {
-                    b.HasOne("Tick_IT.Models.Issues", "Issues")
+                    b.HasOne("Tick_IT.Models.Issue", "Issue")
                         .WithMany("Responses")
-                        .HasForeignKey("Issues_ID");
+                        .HasForeignKey("IssueID");
                 });
 #pragma warning restore 612, 618
         }

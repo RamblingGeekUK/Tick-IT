@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Tick_IT.Data;
 using Tick_IT.Models;
 
 namespace Tick_IT.Views
 {
-    [Authorize]
     public class ResponsesController : Controller
     {
         private readonly TickITContext _context;
@@ -22,7 +22,7 @@ namespace Tick_IT.Views
         // GET: Responses
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Response.ToListAsync());
+            return View(await _context.Responses.ToListAsync());
         }
 
         // GET: Responses/Details/5
@@ -33,14 +33,14 @@ namespace Tick_IT.Views
                 return NotFound();
             }
 
-            var responses = await _context.Response
-                .FirstOrDefaultAsync(m => m.Responses_ID == id);
-            if (responses == null)
+            var response = await _context.Responses
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (response == null)
             {
                 return NotFound();
             }
 
-            return View(responses);
+            return View(response);
         }
 
         // GET: Responses/Create
@@ -54,16 +54,16 @@ namespace Tick_IT.Views
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Responses_ID,Responses_TicketID,Responses_UserID,Responses_DateTime,Responses_Message,Responses_CreatedBy")] Responses responses)
+        public async Task<IActionResult> Create([Bind("ID,TicketID,UserID,DateTime,Message,CreatedBy")] Response response)
         {
             if (ModelState.IsValid)
             {
-                responses.Responses_ID = Guid.NewGuid();
-                _context.Add(responses);
+                response.ID = Guid.NewGuid();
+                _context.Add(response);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(responses);
+            return View(response);
         }
 
         // GET: Responses/Edit/5
@@ -74,12 +74,12 @@ namespace Tick_IT.Views
                 return NotFound();
             }
 
-            var responses = await _context.Response.FindAsync(id);
-            if (responses == null)
+            var response = await _context.Responses.FindAsync(id);
+            if (response == null)
             {
                 return NotFound();
             }
-            return View(responses);
+            return View(response);
         }
 
         // POST: Responses/Edit/5
@@ -87,9 +87,9 @@ namespace Tick_IT.Views
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Responses_ID,Responses_TicketID,Responses_UserID,Responses_DateTime,Responses_Message,Responses_CreatedBy")] Responses responses)
+        public async Task<IActionResult> Edit(Guid id, [Bind("ID,TicketID,UserID,DateTime,Message,CreatedBy")] Response response)
         {
-            if (id != responses.Responses_ID)
+            if (id != response.ID)
             {
                 return NotFound();
             }
@@ -98,12 +98,12 @@ namespace Tick_IT.Views
             {
                 try
                 {
-                    _context.Update(responses);
+                    _context.Update(response);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ResponsesExists(responses.Responses_ID))
+                    if (!ResponseExists(response.ID))
                     {
                         return NotFound();
                     }
@@ -114,7 +114,7 @@ namespace Tick_IT.Views
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(responses);
+            return View(response);
         }
 
         // GET: Responses/Delete/5
@@ -125,14 +125,14 @@ namespace Tick_IT.Views
                 return NotFound();
             }
 
-            var responses = await _context.Response
-                .FirstOrDefaultAsync(m => m.Responses_ID == id);
-            if (responses == null)
+            var response = await _context.Responses
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (response == null)
             {
                 return NotFound();
             }
 
-            return View(responses);
+            return View(response);
         }
 
         // POST: Responses/Delete/5
@@ -140,15 +140,15 @@ namespace Tick_IT.Views
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var responses = await _context.Response.FindAsync(id);
-            _context.Response.Remove(responses);
+            var response = await _context.Responses.FindAsync(id);
+            _context.Responses.Remove(response);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ResponsesExists(Guid id)
+        private bool ResponseExists(Guid id)
         {
-            return _context.Response.Any(e => e.Responses_ID == id);
+            return _context.Responses.Any(e => e.ID == id);
         }
     }
 }

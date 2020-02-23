@@ -1,4 +1,5 @@
 ﻿@model Tick_IT.Models.TicketsViewModel
+<<<<<<< HEAD
 @{
     ViewData["Title"] = "Tickets";
 }
@@ -10,6 +11,23 @@
         @*<tr>
             <th>
                 @Html.DisplayNameFor(model => model.Issue.Issues_UserID)
+=======
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    @*<thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Responses)
+>>>>>>> test/foreign
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Issues_Createdby)
@@ -30,6 +48,7 @@
                 @Html.DisplayNameFor(model => model.Issues_Status)
             </th>
             <th></th>
+<<<<<<< HEAD
         </tr>*@
     </thead>
     <tbody>
@@ -129,3 +148,53 @@
 
 
 
+=======
+        </tr>
+    </thead>*@
+    <tbody>
+        @foreach (var item in Model.Issues)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+
+                <td>
+                    <a asp-action="Select" asp-route-id="@item.ID">Select</a>
+                </td>
+            </tr>
+            @foreach (var issuesReponse in item.Responses)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => issuesReponse.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => issuesReponse.Message)
+                    </td>
+                     <td>
+                        @Html.DisplayFor(modelItem => issuesReponse.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => issuesReponse.DateTime)
+                    </td>
+                </tr>
+            }
+
+        }
+     
+    </tbody>
+</table>
+>>>>>>> test/foreign
