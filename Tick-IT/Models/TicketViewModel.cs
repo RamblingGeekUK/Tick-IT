@@ -7,7 +7,9 @@ namespace Tick_IT.Models
     {
         //public IEnumerable<Issue> Issues { get; set; }
         //public IEnumerable<Response> Responses { get; set; }
-        public List<Issue> Issues { get; set; }
-        public List<Response> Responses { get; set; }
+        public Issue Issues { get; set; }
+        public Response Responses { get; set; }
+
+        public List<Response> ResponsesList { get; set; }
     }
 }

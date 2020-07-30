@@ -23,20 +23,14 @@ namespace Tick_IT.Views.Home
         // GET: Issues
         public async Task<IActionResult> Index() //Guid? ticketID
         {
-            var viewModel = new TicketsViewModel();
-
-            viewModel.Issues = await _context.Issues
-                .Include(r => r.Responses)
-                .ToListAsync();
-                
-            return View(viewModel);
+            return View(await _context.Issues.ToListAsync());
         }
-        //public async Task<IActionResult> Index(Guid ticketID) 
+        //public async Task<IActionResult> Details(Guid ticketID)
         //{
         //    var viewModel = new TicketsViewModel();
 
         //    viewModel.Issues = await _context.Issues
-        //        .Where(x=>x.ID == ticketID)
+        //        .Where(x => x.ID == ticketID)
         //        .Include(r => r.Responses)
         //        .ToListAsync();
 
@@ -51,14 +45,23 @@ namespace Tick_IT.Views.Home
                 return NotFound();
             }
 
-            var issue = await _context.Issues
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (issue == null)
+            //var response = await _context.Responses
+
+            //var TicketsViewModel = new TicketsViewModel();
+
+
+            var TicketsViewModel = _context.Issues
+                .Include(r => r.Responses);
+                 
+            
+            //.FirstOrDefaultAsync(m => m.TicketID == id);
+
+            if (TicketsViewModel == null)
             {
                 return NotFound();
             }
 
-            return View(issue);
+            return View(await TicketsViewModel.ToListAsync());
         }
 
         // GET: Issues/Create
