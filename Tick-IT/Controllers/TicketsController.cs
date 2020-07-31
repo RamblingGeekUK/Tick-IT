@@ -1,3 +1,14 @@
+<<<<<<< HEAD
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using Tick_IT.Data;
+using Tick_IT.Models;
+using System.Linq;
+
+namespace Tick_IT.Controllers
+=======
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,21 +21,72 @@ using Tick_IT.Data;
 using Tick_IT.Models;
 
 namespace Tick_IT.Views.Home
+>>>>>>> test/foreign
 {
-    public class IssuesController : Controller
+    public class TicketsController : Controller
     {
         private readonly TickITContext _context;
 
-        public IssuesController(TickITContext context)
+        public TicketsController(TickITContext context)
         {
             _context = context;
         }
 
-        // GET: Issues
-        public async Task<IActionResult> Index()
+<<<<<<< HEAD
+        // GET: Tickets
+        // 
+        public ActionResult Index(Guid? IssueId, Guid? ResponseID) 
         {
-            return View(await _context.Issues.ToListAsync());
+            var viewModel = new TicketsViewModel();
+            viewModel.Issue =  _context.Issue
+                .Include(r=>r.Responses);
+
+            if (IssueId != null)
+            {
+                ViewData["Issues_ID"] = IssueId;
+                Issues issue = viewModel.Issue.Where(
+                  i => i.Issues_ID == IssueId).Single();               
+            }
+            if (ResponseID != null)
+            {
+                ViewData["ResponseID"] = ResponseID;
+                Responses response = viewModel.Response.Where(
+                    r => r.Responses_ID == ResponseID).Single();
+            }
+            return View(viewModel);
         }
+
+        // GET: Tickets/Details/5
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
+
+        // GET: Tickets/Create
+        public ActionResult Create()
+=======
+        // GET: Issues
+        public async Task<IActionResult> Index() //Guid? ticketID
+        {
+            var viewModel = new TicketsViewModel();
+
+            viewModel.Issues = await _context.Issues
+                .Include(r => r.Responses)
+                .ToListAsync();
+                
+            return View(viewModel);
+        }
+        //public async Task<IActionResult> Index(Guid ticketID) 
+        //{
+        //    var viewModel = new TicketsViewModel();
+
+        //    viewModel.Issues = await _context.Issues
+        //        .Where(x=>x.ID == ticketID)
+        //        .Include(r => r.Responses)
+        //        .ToListAsync();
+
+        //    return View(viewModel);
+        //}
 
         // GET: Issues/Details/5
         public async Task<IActionResult> Details(Guid? id)
@@ -46,10 +108,77 @@ namespace Tick_IT.Views.Home
 
         // GET: Issues/Create
         public IActionResult Create()
+>>>>>>> test/foreign
         {
             return View();
         }
 
+<<<<<<< HEAD
+        // POST: Tickets/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(IFormCollection collection)
+        {
+            try
+            {
+                // TODO: Add insert logic here
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Tickets/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+        // POST: Tickets/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, IFormCollection collection)
+        {
+            try
+            {
+                // TODO: Add update logic here
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Tickets/Delete/5
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        // POST: Tickets/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, IFormCollection collection)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+    }
+}
+=======
         // POST: Issues/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -59,11 +188,6 @@ namespace Tick_IT.Views.Home
         {
             if (ModelState.IsValid)
             {
-                issue.ID = Guid.NewGuid();
-                issue.UserID = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                issue.Createdby = User.FindFirstValue(ClaimTypes.Name);
-                issue.DateTime = DateTime.UtcNow;
-                issue.Status = Issues_Status.Open;
                 _context.Add(issue);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -157,3 +281,4 @@ namespace Tick_IT.Views.Home
         }
     }
 }
+>>>>>>> test/foreign
